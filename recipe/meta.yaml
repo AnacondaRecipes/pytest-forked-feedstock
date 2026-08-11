@@ -1,17 +1,17 @@
-{% set version = "1.6.0" %}
+{% set version = "1.7.5" %}
 
 package:
   name: pytest-forked
   version: {{ version }}
 
 source:
-  url: https://pypi.io/packages/source/p/pytest-forked/pytest-forked-{{ version }}.tar.gz
-  sha256: 4dafd46a9a600f65d822b8f605133ecf5b3e1941ebb3588e943b4e3eb71a5a3f
+  url: https://pypi.org/packages/source/p/pytest-forked/pytest_forked-1.7.5.tar.gz
+  sha256: 00f2bee51612f29b8e6b81eed2c3b2975e824c2693394f5bdaf7a1369078ba5f
 
 build:
-  skip: True # [py<38]
+  skip: true  # [py<310]
   number: 0
-  script: {{ PYTHON }} -m pip install . --no-deps --ignore-installed --no-cache-dir -vvv
+  script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation
 
 requirements:
   host:
@@ -19,9 +19,11 @@ requirements:
     - pip
     - pytest >=3.1.0
     - setuptools_scm
+    - setuptools >=41.4
+    - setuptools-scm >=3.3
   run:
     - python
-    - pytest >=3.1.0
+    - pytest >=7
     - py
 
 test:
@@ -30,7 +32,13 @@ test:
   files:
     - dummy_test.py
   commands:
-    - pytest --forked dummy_test.py  # [not win]
+    - pytest --forked dummy_test.py
+    - pip check
+    - pip check
+    - pip check
+    - pip check
+  requires:
+    - pip
 
 about:
   home: https://github.com/pytest-dev/pytest-forked
