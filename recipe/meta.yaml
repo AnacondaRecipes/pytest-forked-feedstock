@@ -1,28 +1,29 @@
-{% set version = "1.6.0" %}
+{% set name = "pytest-forked" %}
+{% set version = "1.7.5" %}
 
 package:
-  name: pytest-forked
+  name: {{ name }}
   version: {{ version }}
 
 source:
-  url: https://pypi.io/packages/source/p/pytest-forked/pytest-forked-{{ version }}.tar.gz
-  sha256: 4dafd46a9a600f65d822b8f605133ecf5b3e1941ebb3588e943b4e3eb71a5a3f
+  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name.replace('-', '_')}}-{{ version }}.tar.gz
+  sha256: 00f2bee51612f29b8e6b81eed2c3b2975e824c2693394f5bdaf7a1369078ba5f
 
 build:
-  skip: True # [py<38]
   number: 0
   script: {{ PYTHON }} -m pip install . --no-deps --ignore-installed --no-cache-dir -vvv
+  skip: true # [py<310]
 
 requirements:
   host:
-    - python
     - pip
-    - pytest >=3.1.0
-    - setuptools_scm
+    - python
+    - wheel
+    - setuptools >=41.4
+    - setuptools_scm >=3.3
   run:
     - python
-    - pytest >=3.1.0
-    - py
+    - pytest >=7
 
 test:
   imports:
@@ -36,8 +37,11 @@ about:
   home: https://github.com/pytest-dev/pytest-forked
   license: MIT
   license_file: LICENSE
-  summary: run tests in isolated forked subprocesses
+  license_family: MIT
+  summary: Run tests in isolated forked subprocesses
+  description: Run tests in isolated forked subprocesses.
   dev_url: https://github.com/pytest-dev/pytest-forked
+  doc_url: https://github.com/pytest-dev/pytest-forked
 
 extra:
   recipe-maintainers:
